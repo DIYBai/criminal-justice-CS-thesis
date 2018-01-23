@@ -34,7 +34,9 @@ def classify(k, new_datum, data_list):
         else:
             label_dict[curr_label] = 1
     key_list = label_dict.keys()
-    if len(key_list) > 1:
+    if len(key_list) == 1:
+        return key_list[0]
+    else:
         sorted_labels = sorted(key_list)
         freq_labels = [sorted_labels[0]]
         idx = 1
@@ -43,5 +45,3 @@ def classify(k, new_datum, data_list):
             idx += 1
         random_idx = random.randrange(0, len(freq_labels))
         return freq_labels[random_idx]
-    else:
-        return key_list[0]
