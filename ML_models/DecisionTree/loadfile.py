@@ -2,8 +2,11 @@ import csv
 my_data=[]
 my_processed_data=[]
 test_sample=[]
+input_name = 'for_testing.csv'
+output_name = 'RiskAssessData.csv'
+
 def read_f():
-    my_file= open('RiskAssessData.csv', 'rb')
+    my_file= open(input_name, 'rb')
     #print my_file[22], " TEST"
     my_reader= csv.reader(my_file)
     #header= my_reader.next()
@@ -20,17 +23,18 @@ def read_f():
             my_processed_data.append(my_data[i])
     my_file.close()
     print len(my_processed_data), " processed_data"
+
 def write_f():
-    my_new_file= open('for_testing.csv','wb')
+    my_new_file= open(output_name,'wb')
     wr = csv.writer(my_new_file, dialect='excel')
-    wr.writerows(my_processed_data[:2000])
+    wr.writerows(my_processed_data)
     my_new_file.close()
 
 def construct_sample():
-    for i in range (1,len(my_processed_data)):
+    for i in range( 1,len(my_processed_data) ):
         temp=[]
         for j in range (1, 40):
-            temp.append(my_processed_data[0][j]+' = '+my_processed_data[i][j])
+            temp.append(my_processed_data[0][j] + ' = ' + my_processed_data[i][j])
         test_sample.append(temp)
 #read_f()
 #write_f()
