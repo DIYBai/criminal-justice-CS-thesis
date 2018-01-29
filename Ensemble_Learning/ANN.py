@@ -1,8 +1,10 @@
 import numpy as np
 # import mglearn
+import MLModel
 from sklearn.neural_network import MLPClassifier
 
-class ANN(MLModel):
+class ANN(MLModel.MLModel):
+
     def __init__(self): #, OTHER PARAMS):
         self.mlp = MLPClassifier( hidden_layer_sizes = (10,2,) )
 
@@ -10,7 +12,7 @@ class ANN(MLModel):
     #     self.mlp = MLPClassifier( hidden_layer_sizes = layer_sizes )
 
     def train(self, x_train, y_train):
-        self.mlp.fit(self.x_train, self.y_train)
+        self.mlp.fit(x_train, y_train)
 
-    def report_accuracy(self, x_text, y_test):
-        return self.mlp.score(self.x_test, self.y_test)
+    def report_accuracy(self, x_test, y_test):
+        return self.mlp.score(x_test, y_test)
