@@ -1,10 +1,8 @@
 import numpy as np
-# import mglearn
 import MLModel
 from sklearn.neural_network import MLPClassifier
 
 class ANN(MLModel.MLModel):
-
     def __init__(self): #, OTHER PARAMS):
         self.mlp = MLPClassifier( hidden_layer_sizes = (10,2,) )
 

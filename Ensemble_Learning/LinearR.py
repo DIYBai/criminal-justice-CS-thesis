@@ -1,8 +1,8 @@
 import numpy as np
-# import mglearn
+import MLModel
 from sklearn.linear_model import LogisticRegression
 
-class Dtree(MLModel):
+class Dtree(MLModel.MLModel):
     def __init__(self, k): #, OTHER PARAMS):
         self.regression = LogisticRegression(C=100)
 

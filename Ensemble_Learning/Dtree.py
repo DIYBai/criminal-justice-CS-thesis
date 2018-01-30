@@ -1,8 +1,8 @@
 import numpy as np
-# import mglearn
+import MLModel
 from sklearn.tree import DecisionTreeClassifier
 
-class Dtree(MLModel):
+class Dtree(MLModel.MLModel):
     def __init__(self, k): #, OTHER PARAMS):
         self.dtree = DecisionTreeClassifier(random_state=0)
 

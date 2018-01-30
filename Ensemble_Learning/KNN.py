@@ -1,8 +1,8 @@
 import numpy as np
-# import mglearn
+import MLModel
 from sklearn.neighbors import KNeighborsClassifier
 
-class KNN(MLModel):
+class KNN(MLModel.MLModel):
     def __init__(self, k): #, OTHER PARAMS):
         self.knn = KNeighborsClassifier(n_neighbors = k)
 
