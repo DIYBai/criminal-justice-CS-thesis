@@ -11,6 +11,7 @@ class NaiveEnsemble(MetaModel.MetaModel):
 
     def train(self, x_train, y_train):
         for i in range(len(self.model_list)):
+            print self.model_list[i], " Model"
             self.model_list[i].train(x_train,y_train)
 
     def get_prediction(self, x_test):
@@ -31,3 +32,10 @@ class NaiveEnsemble(MetaModel.MetaModel):
                count += 1
 
         return float(count)/float(len(y_test))
+
+    def report_individual_accuracy(self,x_test,y_test):
+        temp=[]
+        for i in range(len(self.model_list)):
+            acc=self.model_list[i].report_accuracy(x_test,y_test)
+            temp.append(acc)
+        return temp
