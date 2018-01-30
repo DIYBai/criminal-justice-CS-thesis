@@ -7,7 +7,10 @@ class KNN(MLModel.MLModel):
         self.knn = KNeighborsClassifier(n_neighbors = k)
 
     def train(self, x_train, y_train):
-        self.knn.fit(self.x_train, self.y_train)
+        self.knn.fit(x_train, y_train)
 
-    def report_accuracy(self, x_text, y_test):
-        return self.knn.score(self.x_test, self.y_test)
+    def predict(self, x_test):
+    	return self.knn.predict(x_test)
+
+    def report_accuracy(self, x_test, y_test):
+        return self.knn.score(x_test, y_test)

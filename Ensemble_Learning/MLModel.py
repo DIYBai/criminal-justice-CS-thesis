@@ -13,17 +13,22 @@ class MLModel:
     def report_accuracy(self, x_test, y_test):
         return
 
+    @abstractmethod
+    def predict(self, x_test):
+    	return
+
     def split_data(self, inputs, outputs, test_size=.25, ):
         return train_test_split( inputs, outputs, test_size=test_size)
 
     # # TODO: Implemented the math, but nothing else so WIP
-    # def run_trials(self):
+    # def run_trials(self, i, u , x):
     #     trial_n = 10
     #     accuracies = []
     #
     #     avg = 0.0
     #     for i in range(trial_n):
-    #         self.split_data()
+    #         print type(i), type(u)
+    #         self.split_data(i, u, x)
     #         self.train()
     #         acc = self.report_accuracy()
     #         accuracies.append( acc )
@@ -35,3 +40,4 @@ class MLModel:
     #         std_dev += Math.pow( accuracies[i]-avg, 2 )
     #     std_dev /= trial_n
     #     std_dev = Math.sqrt(std_dev)
+    #     print "Average: ", avg, " Standard Deviation: ", std_dev

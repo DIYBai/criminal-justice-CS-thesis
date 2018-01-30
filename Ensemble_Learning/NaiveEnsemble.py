@@ -20,7 +20,8 @@ class NaiveEnsemble(MetaModel.MetaModel):
             np.append(predictions,prediction)
 
         m = stats.mode(predictions)
-        return m.mode[0]
+        #return m.mode[0]
+        return m[0][0]
 
     def report_accuracy(self, x_test, y_test):
         count = 0

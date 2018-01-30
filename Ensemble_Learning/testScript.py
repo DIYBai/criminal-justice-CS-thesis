@@ -5,7 +5,7 @@ from Dtree import Dtree
 
 inputs, outputs = rp.parse_data()
 print(inputs)
-print(outputs)
+#print(outputs)
 
 # print("### ANN Test ###")
 # test_ANN = ANN()
@@ -15,6 +15,7 @@ print(outputs)
 
 print("### Dtree Test ###")
 test_Dtree = Dtree()
-x_train, x_test, y_train, y_test = test_Dtree.split_data(inputs, outputs, .25)
-test_Dtree.train(x_train, y_train)
-print("Accuracy: " + str(test_Dtree.report_accuracy(x_test,y_test)))
+#x_train, x_test, y_train, y_test = test_Dtree.split_data(inputs, outputs, .25)
+#test_Dtree.train(x_train, y_train)
+test_Dtree.run_trials(inputs, outputs, .25)
+#print("Accuracy: " + str(test_Dtree.report_accuracy(x_test,y_test)))
