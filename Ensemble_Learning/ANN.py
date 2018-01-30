@@ -12,5 +12,8 @@ class ANN(MLModel.MLModel):
     def train(self, x_train, y_train):
         self.mlp.fit(x_train, y_train)
 
+    def predict(self, x_test):
+        return self.mlp.predict(x_test)
+
     def report_accuracy(self, x_test, y_test):
         return self.mlp.score(x_test, y_test)
