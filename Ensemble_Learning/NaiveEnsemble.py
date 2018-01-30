@@ -27,7 +27,7 @@ class NaiveEnsemble(MetaModel.MetaModel):
     def report_accuracy(self, x_test, y_test):
         count = 0
         for i in range(0, len(y_test)):
-            prediction = self.get_prediction(x_test)
+            prediction = self.get_prediction(([x_test[i]]))
             if prediction == y_test[i]:
                count += 1
 
@@ -35,7 +35,7 @@ class NaiveEnsemble(MetaModel.MetaModel):
 
     def report_individual_accuracy(self,x_test,y_test):
         temp=[]
-        for i in range(len(self.model_list)):
+        for i in range(0,len(self.model_list)):
             acc=self.model_list[i].report_accuracy(x_test,y_test)
             temp.append(acc)
         return temp

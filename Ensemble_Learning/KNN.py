@@ -10,6 +10,7 @@ class KNN(MLModel.MLModel):
         self.knn.fit(x_train, y_train)
 
     def predict(self, x_test):
+        #print "In KNN PREDICT"
     	return self.knn.predict(x_test)
 
     def report_accuracy(self, x_test, y_test):
