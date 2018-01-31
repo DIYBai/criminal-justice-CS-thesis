@@ -4,7 +4,7 @@ from sklearn.neural_network import MLPClassifier
 
 class ANN(MLModel.MLModel):
     def __init__(self): #, OTHER PARAMS):
-        self.mlp = MLPClassifier( hidden_layer_sizes = (10,2,) )
+        self.mlp = MLPClassifier( hidden_layer_sizes = (10, 2,) )
 
     # def __init__(self, layer_sizes):
     #     self.mlp = MLPClassifier( hidden_layer_sizes = layer_sizes )
