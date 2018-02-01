@@ -6,4 +6,4 @@ def parse_data(filename="RiskAssessData.csv"):
     riskAsses = riskAsses._get_numeric_data()
     RA_array = riskAsses.as_matrix()
     #print RA_array[:4]
-    return RA_array[:,4:33], RA_array[:,38]
+    return RA_array[:,4:33], RA_array[:,37]

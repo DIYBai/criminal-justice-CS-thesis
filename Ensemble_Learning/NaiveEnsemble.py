@@ -26,8 +26,8 @@ class NaiveEnsemble(MetaModel.MetaModel):
             #print "Prediction matrix: ", predictions
         m = stats.mode(predictions)
         #return m.mode[0]
-        #if m[0][0]!=0.0:
-        print m[0][0]
+        if m[0][0]!=0.0:
+            print m[0][0]
         return m[0][0]
 
     def report_accuracy(self, x_test, y_test):
