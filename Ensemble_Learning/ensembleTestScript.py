@@ -21,12 +21,12 @@ x_train, x_test, y_train, y_test = test_DTree.split_data(inputs, outputs, .25)
 
 
 
-test_NaiveEnsemble = NaiveEnsemble([test_ANN, test_LogR, test_DTree, test_KNN])
+test_NaiveEnsemble = NaiveEnsemble([test_ANN,test_KNN,test_LogR,test_DTree])
 test_NaiveEnsemble.train(x_train, y_train)
-#print("Naive Ensemble Test accuracy: ",test_NaiveEnsemble.report_accuracy(x_test,y_test))
-print("Naive Ensemble Test accuracy: ",test_NaiveEnsemble.report_accuracy(x_train,y_train))
+print("Naive Ensemble Test accuracy: test data set",test_NaiveEnsemble.report_accuracy(x_test,y_test))
+#print("Naive Ensemble Test accuracy: train data set",test_NaiveEnsemble.report_accuracy(x_train,y_train))
 
 #test_KNN.train(x_train,y_train)
 #test_NaiveEnsemble.model_list.append(test_KNN)
-print "Individual accuracy: ", test_NaiveEnsemble.report_individual_accuracy(x_test,y_test)
-print "Individual accuracy: ", test_NaiveEnsemble.report_individual_accuracy(x_train,y_train)
+print "Individual accuracy: test data set", test_NaiveEnsemble.report_individual_accuracy(x_test,y_test)
+#print "Individual accuracy: test train set", test_NaiveEnsemble.report_individual_accuracy(x_train,y_train)
