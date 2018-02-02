@@ -13,5 +13,9 @@ class MetaModel:
     def report_accuracy(self, x_test, y_test):
         return
 
+    @abstractmethod
+    def predict(self, x_test):
+    	return
+
     def split_data(self, inputs, outputs, test_size=.25, ):
         return train_test_split( inputs, outputs, test_size=test_size)
