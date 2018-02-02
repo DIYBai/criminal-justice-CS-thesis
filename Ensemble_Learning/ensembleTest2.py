@@ -45,26 +45,46 @@ for a in range(3):
         false_p = 0
         true_n = 0
         true_p = 0
-        for i in range(len(x_test)):
-            p = model.predict([x_test[i]])
+        # for i in range(len(x_test)):
+        #     p = model.predict([x_test[i]])
+        #     # = testpA
+        #     if p == 0.0:
+        #         zeroes += 1
+        #         if y_test[i] == 0.0:
+        #             true_n += 1
+        #         else:
+        #             false_n += 1
+        #     elif p == 1.0:
+        #         ones += 1
+        #         if y_test[i] == 1.0:
+        #             true_p += 1
+        #         else:
+        #             false_p += 1
+        #     else:
+        #         print("Special val guessed: ", p)
+        # print("ZEROES:\t", zeroes / len(x_test), "\tfalse negative: ", false_n / (false_n + true_n + 1))
+        # print("ONES:  \t", ones   / len(x_test), "\tfalse positive: ", false_p / (false_p + true_p + 1))
+        # print("Accuracy: ", (true_n + true_p) / len(x_test), "\n"
+        for i in range(len(x_train)):
+            p = model.predict([x_train[i]])
             # = testpA
             if p == 0.0:
                 zeroes += 1
-                if y_test[i] == 0.0:
+                if y_train[i] == 0.0:
                     true_n += 1
                 else:
                     false_n += 1
             elif p == 1.0:
                 ones += 1
-                if y_test[i] == 1.0:
+                if y_train[i] == 1.0:
                     true_p += 1
                 else:
                     false_p += 1
             else:
                 print("Special val guessed: ", p)
-        print("ZEROES:\t", zeroes / len(x_test), "\tfalse negative: ", false_n / (false_n + true_n + 1))
-        print("ONES:  \t", ones   / len(x_test), "\tfalse positive: ", false_p / (false_p + true_p + 1))
-        print("Accuracy: ", (true_n + true_p) / len(x_test), "\n")
+        print("ZEROES:\t", zeroes / len(x_train), "\tfalse negative: ", false_n / (false_n + true_n + 1))
+        print("ONES:  \t", ones   / len(x_train), "\tfalse positive: ", false_p / (false_p + true_p + 1))
+        print("Accuracy: ", (true_n + true_p) / len(x_train), "\n")
     ######################################
 
 # print("\n\nFinal Results:", ensemble_results, individual_results)
