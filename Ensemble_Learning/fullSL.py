@@ -5,13 +5,14 @@ from sklearn.neighbors import KNeighborsClassifier
 from scipy import stats
 import copy
 
-class discreteSL(MetaModel.MetaModel):
+class fullSL(MetaModel.MetaModel):
 
 
     def __init__(self, model_list):
         self.model_list = model_list
         self.model_accuracies = []
         self.best_model = model_list[0]
+        self.total_accuracy = 100.000
 
     def concatenate(self, folds, i):
         folds_copy = copy.deepcopy(folds)
@@ -20,16 +21,8 @@ class discreteSL(MetaModel.MetaModel):
 
     def mean_accuracies(self,accuracies_list,b):
         self.model_accuracies = [sum(x)/b for x in zip(*accuracies_list)]
-
-    def select_model(self):
-        high_acc = 0
-        high_indx = 0
-        for i in range(len(self.model_list)):
-            current_acc = self.model_accuracies[i]
-            if(high_acc < current_acc):
-                high_acc = current_acc
-                high_indx = i
-        self.best_model = self.model_list[i]
+        accuracies_list_np = np.asarray(accuracies_list)
+        self.total_accuracy = np.sum(accuracies_list_np)
 
 
     def train(self, inputs, outputs, b=10):
@@ -43,7 +36,6 @@ class discreteSL(MetaModel.MetaModel):
             accuracies = self.fold_accuracy(x_test,y_test)
             accuracies_list.append(accuracies)
         self.mean_accuracies(accuracies_list,b)
-        self.select_model()
         print(self.model_accuracies)
         print(self.best_model)      
 
@@ -52,7 +44,13 @@ class discreteSL(MetaModel.MetaModel):
             self.model_list[i].train(x_train,y_train)
 
     def predict(self, x_test):
-        return self.best_model.predict(x_test)
+        total_accuracy = 0.0
+        for i in range(len(self.model_list)):
+            curr_accuracy = self.model_list[i].predict(x_test)
+            print(curr_accuracy)
+            total_accuracy += (curr_accuracy * self.model_accuracies[i])
+        if total_accuracy >= (self.total_accuracy/2.0): return 1
+        return 0
 
     def fold_accuracy(self, x_test, y_test):
         accuracies = []
@@ -62,5 +60,11 @@ class discreteSL(MetaModel.MetaModel):
         return accuracies
 
     def report_accuracy(self, x_test, y_test):
-        return self.best_model.report_accuracy(x_test, y_test)
+        count = 0
+        for i in range(0, len(y_test)):
+            prediction = self.predict([x_test[i]])
+            if prediction == y_test[i]:
+               count += 1
+
+        return float(count)/float(len(y_test))
 
