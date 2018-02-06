@@ -3,8 +3,8 @@ import MLModel
 from sklearn.linear_model import LogisticRegression
 
 class LogR(MLModel.MLModel):
-    def __init__(self): #, OTHER PARAMS):
-        self.regression = LogisticRegression(C=100)
+    def __init__(self,algo, c): #, OTHER PARAMS):
+        self.regression = LogisticRegression(solver=algo,C=c)
 
     def train(self, x_train, y_train):
         self.regression.fit(x_train, y_train)
