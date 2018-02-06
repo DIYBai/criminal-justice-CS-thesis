@@ -8,7 +8,7 @@ from helper import *
 import numpy as np
 
 # print("### Welcome ###")
-in_file = "half_half.csv"
+in_file = "RiskAssessData.csv"
 inputs, outputs = rp.parse_data(in_file)
 or_list = get_OR(inputs, outputs)
 for i in range(len(or_list)):
@@ -20,7 +20,7 @@ while(i < len(data_dists) and data_dists[i][0] <= MIN_CUTOFF):
     # print(data_dists[i])
     i += 1
 print("Min:", min_dist, "\tMax:", max_dist, "\tMean:", avg_dist, "\tMedian:", (data_dists[len(data_dists)//2])[0] )
-print("N below cutoff:", i)
+print( "N below cutoff:", i, "out of", len(data_dists), " ({:6.4f})".format(i/len(data_dists)) )
 # print(inputs)
 # print(outputs)
 
