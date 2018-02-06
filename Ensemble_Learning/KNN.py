@@ -3,8 +3,8 @@ import MLModel
 from sklearn.neighbors import KNeighborsClassifier
 
 class KNN(MLModel.MLModel):
-    def __init__(self, k): #, OTHER PARAMS):
-        self.knn = KNeighborsClassifier(n_neighbors = k)
+    def __init__(self, k ,w, algo): #, OTHER PARAMS):
+        self.knn = KNeighborsClassifier(n_neighbors = k, weights =w, algorithm=algo)
 
     def train(self, x_train, y_train):
         self.knn.fit(x_train, y_train)

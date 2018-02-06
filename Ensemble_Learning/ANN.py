@@ -3,8 +3,8 @@ import MLModel
 from sklearn.neural_network import MLPClassifier
 
 class ANN(MLModel.MLModel):
-    def __init__(self): #, OTHER PARAMS):
-        self.mlp = MLPClassifier( hidden_layer_sizes = (20,10,) )
+    def __init__(self, algo, activation_f, learning_method, iteration, learning_rate, a,layers): #, OTHER PARAMS):
+        self.mlp = MLPClassifier( solver= algo,activation=activation_f, max_iter=iteration ,learning_rate=learning_method,learning_rate_init=learning_rate, alpha= a,hidden_layer_sizes = layers )
 
     # def __init__(self, layer_sizes):
     #     self.mlp = MLPClassifier( hidden_layer_sizes = layer_sizes )
