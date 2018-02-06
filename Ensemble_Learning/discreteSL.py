@@ -5,7 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from scipy import stats
 import copy
 
-class discreteSL(MetaModel.MetaModel):
+class discreteSL(EnsembleModel.EnsembleModel):
 
 
     def __init__(self, model_list):
@@ -45,7 +45,7 @@ class discreteSL(MetaModel.MetaModel):
         self.mean_accuracies(accuracies_list,b)
         self.select_model()
         print(self.model_accuracies)
-        print(self.best_model)      
+        print(self.best_model)
 
     def fold_train(self, x_train, y_train):
         for i in range(len(self.model_list)):
@@ -63,4 +63,3 @@ class discreteSL(MetaModel.MetaModel):
 
     def report_accuracy(self, x_test, y_test):
         return self.best_model.report_accuracy(x_test, y_test)
-

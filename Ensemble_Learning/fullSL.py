@@ -5,7 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from scipy import stats
 import copy
 
-class fullSL(MetaModel.MetaModel):
+class fullSL(EnsembleModel.EnsembleModel):
 
 
     def __init__(self, model_list):
@@ -37,7 +37,7 @@ class fullSL(MetaModel.MetaModel):
             accuracies_list.append(accuracies)
         self.mean_accuracies(accuracies_list,b)
         print(self.model_accuracies)
-        print(self.best_model)      
+        print(self.best_model)
 
     def fold_train(self, x_train, y_train):
         for i in range(len(self.model_list)):
@@ -67,4 +67,3 @@ class fullSL(MetaModel.MetaModel):
                count += 1
 
         return float(count)/float(len(y_test))
-

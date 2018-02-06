@@ -3,7 +3,7 @@ import MetaModel
 from sklearn.neighbors import KNeighborsClassifier
 from scipy import stats
 
-class NaiveEnsemble(MetaModel.MetaModel):
+class NaiveEnsemble(EnsembleModel.EnsembleModel):
 
 
     def __init__(self, model_list):
