@@ -10,6 +10,9 @@ import numpy as np
 # print("### Welcome ###")
 in_file = "half_half.csv"
 inputs, outputs = rp.parse_data(in_file)
+or_list = get_OR(inputs, outputs)
+for i in range(len(or_list)):
+    print(or_list[i])
 data_dists, min_dist, max_dist, avg_dist = get_distances(inputs)
 i = 0
 MIN_CUTOFF = 2.0
@@ -20,7 +23,7 @@ print("Min:", min_dist, "\tMax:", max_dist, "\tMean:", avg_dist, "\tMedian:", (d
 print("N below cutoff:", i)
 # print(inputs)
 # print(outputs)
-print(get_OR(inputs, outputs))
+
 
 
 

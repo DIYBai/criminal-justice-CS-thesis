@@ -31,9 +31,10 @@ def test_model(model, inp, out):
     zero_rate = zeroes / entries
     one_rate =  ones   / entries
     accuracy = (true_n + true_p) / entries
-    print("ZEROES:\t",  "{:6.4f}".format(zero_rate), "(", zeroes, ")\tFalse Negative: ", false_n / (false_n + true_n + 1))
-    print("ONES:  \t",  "{:6.4f}".format(one_rate),  "(", ones,   ")\tFalse Positive: ", false_p / (false_p + true_p + 1))
+    print("ZEROES:\t",  "{:6.4f}".format(zero_rate), "(", zeroes, ")\tFalse Negative: ", false_n / (false_n + true_n + 0.00001))
+    print("ONES:  \t",  "{:6.4f}".format(one_rate),  "(", ones,   ")\tFalse Positive: ", false_p / (false_p + true_p + 0.00001))
     print("Accuracy: ", "{:6.4f}".format(accuracy), "\n")
+    return [len(inp), accuracy, ( false_n / (false_n + true_n + 0.00001) ), ( false_p / (false_p + true_p + 0.00001) )]
 
 #TODO: make it pretty?
 def test_ensemble_complete(ensemble, inp, out):
@@ -95,7 +96,9 @@ def get_OR(inp, out): #odds ratio (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC
                     exp_n += 1
                 else:
                     unexp_c += 1
-        odds_ratios.append( (exp_c*unexp_n) / (unexp_c*exp_n + 0.000001), i )
+        odds_ratio = (exp_c*unexp_n)/(unexp_c*exp_n + 0.000001)
+        risk_ratio = ( exp_c*(unexp_n+unexp_c) ) / ( unexp_c*(exp_n+exp_c) + 0.000001 )
+        odds_ratios.append( (odds_ratio, risk_ratio, i) )
         #print("\n")
     odds_ratios.sort()
     return odds_ratios
