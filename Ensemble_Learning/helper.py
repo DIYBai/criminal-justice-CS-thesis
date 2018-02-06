@@ -1,7 +1,8 @@
+import sys
 
 #should work for both individual models and ensemble models
 def test_model(model, inp, out):
-    entries = entries
+    entries = len(inp)
 
     zeroes = 0
     ones = 0
@@ -14,13 +15,13 @@ def test_model(model, inp, out):
         p = model.predict([inp[i]])
         if p == 0.0:
             zeroes += 1
-            if y_train[i] == 0.0:
+            if out[i] == 0.0:
                 true_n += 1
             else:
                 false_n += 1
         elif p == 1.0:
             ones += 1
-            if y_train[i] == 1.0:
+            if out[i] == 1.0:
                 true_p += 1
             else:
                 false_p += 1
@@ -45,3 +46,56 @@ def test_ensemble_complete(ensemble, inp, out):
 def run_trials(model, inp, out, k = 10):
     for i in range(k):
         test_model(model, inp, out)
+
+def get_distances(inp):#, min_cutoff = 0.0, max_cutoff = sys.maxsize):
+    distances = []
+    min_dist = euclid_dist_squared(inp[0], inp[1])
+    max_dist = euclid_dist_squared(inp[0], inp[1])
+    avg = 0
+    count = 0
+    for i in range(len(inp)):
+        for j in range(i + 1, len(inp)):
+            dist = euclid_dist_squared(inp[i], inp[j])
+            avg += dist
+            count += 1
+            if dist > max_dist:
+                max_dist = dist
+            elif dist < min_dist:
+                min_dist = dist
+            #if min_cutoff <= dist and dist <= max_cutoff:
+            distances.append( (dist, i, j) )
+    distances.sort()
+    avg = avg / count
+    return distances, min_dist, max_dist, avg
+
+def euclid_dist_squared(v1, v2):
+    dist = 0
+    for i in range(len(v1)):
+        dist += (v1[i] - v2[i])**2
+    return dist
+
+def get_OR(inp, out): #odds ratio (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2938757/)
+    odds_ratios = []
+    print(out)
+    for i in range(len(inp[0])): #for each columns
+        #print("Column:", i)
+        exp_c = 0
+        exp_n = 0
+        unexp_c = 0
+        unexp_n = 0
+        for j in range(len(inp)):
+            #print(inp[j][i], out[j])
+            if inp[j][i] == out[j]:
+                if out[j] == 0:
+                    unexp_n += 1
+                else:
+                    exp_c += 1
+            else:
+                if out[j] == 0:
+                    exp_n += 1
+                else:
+                    unexp_c += 1
+        odds_ratios.append( (exp_c*unexp_n) / (unexp_c*exp_n + 0.000001), i )
+        #print("\n")
+    odds_ratios.sort()
+    return odds_ratios
