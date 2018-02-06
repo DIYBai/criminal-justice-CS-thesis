@@ -3,7 +3,7 @@ import MLModel
 from sklearn.neighbors import KNeighborsClassifier
 
 class KNN(MLModel.MLModel):
-    def __init__(self, k ,w, algo): #, OTHER PARAMS):
+    def __init__(self, k=4 ,w='distance', algo='auto'): #, OTHER PARAMS):
         self.knn = KNeighborsClassifier(n_neighbors = k, weights =w, algorithm=algo)
 
     def train(self, x_train, y_train):

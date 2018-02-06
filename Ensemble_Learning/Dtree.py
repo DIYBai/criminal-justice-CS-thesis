@@ -3,7 +3,7 @@ import MLModel
 from sklearn.tree import DecisionTreeClassifier
 
 class Dtree(MLModel.MLModel):
-    def __init__(self, criteria, split , depth): #, OTHER PARAMS):
+    def __init__(self, criteria='gini', split='best' , depth=40): #, OTHER PARAMS):
         self.dtree = DecisionTreeClassifier(criterion = criteria, splitter = split, max_depth=depth,random_state=0)
 
     def train(self, x_train, y_train):
