@@ -15,24 +15,15 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         self.meta_output=[]
 
     def train(self, x_train, y_train):
-        self.Dtree(x_train,y_train)
-        #self.ANN(x_train,y_train)
+        #self.Dtree(x_train,y_train)
+        self.ANN(x_train,y_train)
         #self.KNN(x_train,y_train)
         #self.LogR(x_train,y_train)
         self.train_meta(x_train,y_train)
-        #my_ANN = ANN(layers=[100,90,80])
-        #x_train, x_test, y_train, y_test = my_ANN.split_data(self.meta_input, self.meta_output, .25)
-        #my_ANN.train(x_train,y_train)
         return
 
     def predict(self,x_test):
         self.meta_input=[]
-        #self.meta_output=[]
-        #predictions=[]
-        #for model in self.models:
-        #    prediction = model.predict(x_test)
-        #    predictions.append(prediction[0])
-        #self.meta_input.append(predictions)
         self.build_metadata(x_test)
         return self.my_ANN.predict(self.meta_input)
 
@@ -77,22 +68,16 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
     def build_metadata(self, x_test):
         predictions = []
         predictions_number =[]
+        for element in x_test[0]:
+            predictions_number.append(element)
         for model in self.models:
             prediction = model.predict(x_test)
             predictions.append([model,prediction[0]])
             predictions_number.append(prediction[0])
-
         predictions_np = np.asarray(predictions)
         predictions_number_np = np.asarray(predictions_number)
         m = stats.mode(predictions_number_np)
-        #print predictions_number, "predictions from list of models"
-        #the resulting predictions from each model will be used as inputs
-        self.meta_input.append(predictions_number)
-        #the mode of the resulting predictions from each model will be used as outputs
-        #self.meta_output.append(m[0])
-        #print m[0]
-        #return m.mode[0]
-        #apocalypticDoc
+        self.meta_input.append(predictions_number_np)
         return predictions_np
 
     def train_meta(self, x_test,y_test):
@@ -108,20 +93,24 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         results=[]
         for model in self.models:
             results.append([model,model.report_accuracy(x_test,y_test)])
-        #print self.settings
         return results
     def ANN(self,x_train,y_train):
         algorithms = ['lbfgs', 'sgd', 'adam']
-        activation_f = ['identity', 'logistic', 'tanh', 'relu']
-        learning_method = ['constant', 'invscaling', 'adaptive']
-        alpha= [.0001, .0005, .0009 , .001 , .005, .009 , .01]
-        rate =[.001 , .005 , .009 , .01 , .05 ,.09 , .1 , .0009 , .0005 , .0001]
-        layers = [(100,),(100, 90,),(100,90,80,)]
+        #activation_f = ['identity', 'logistic', 'tanh', 'relu']
+        activation_f = ['relu']
+        #learning_method = ['constant', 'invscaling', 'adaptive']
+        learning_method = ['constant','adaptive']
+        #alpha= [.0001, .0005, .0009 , .001 , .005, .009 , .01]
+        alpha= [.0001]
+        #rate =[.001 , .005 , .009 , .01 , .05 ,.09 , .1 , .0009 , .0005 , .0001]
+        rate =[.001]
+        #layers = [(100,),(100, 90,),(100,90,80,)]
+        layers = [(100,90,80,)]
         for algo in algorithms:
             for function in activation_f:
                 for methods in learning_method:
                     #iterations loop
-                    for i in range(200,301,100):
+                    for i in range(700,1001,100):
                         for r in rate:
                             for a in alpha:
                                 #layers
