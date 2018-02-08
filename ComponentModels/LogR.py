@@ -1,8 +1,8 @@
 import numpy as np
-import MLModel
+import ComponentModel
 from sklearn.linear_model import LogisticRegression
 
-class LogR(MLModel.MLModel):
+class LogR(ComponentModel.ComponentModel):
     def __init__(self,algo='lbfgs', c=100): #, OTHER PARAMS):
         self.regression = LogisticRegression(solver=algo,C=c)
 

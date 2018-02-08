@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split
 from abc import ABCMeta, abstractmethod
 import mglearn
 
-class MLModel:
+class ComponentModel:
     __metaclass__ = ABCMeta
 
     @abstractmethod

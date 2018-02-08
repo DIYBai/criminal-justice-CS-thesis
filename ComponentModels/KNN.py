@@ -1,8 +1,8 @@
 import numpy as np
-import MLModel
+import ComponentModel
 from sklearn.neighbors import KNeighborsClassifier
 
-class KNN(MLModel.MLModel):
+class KNN(ComponentModel.ComponentModel):
     def __init__(self, k=4 ,w='distance', algo='auto'): #, OTHER PARAMS):
         self.knn = KNeighborsClassifier(n_neighbors = k, weights =w, algorithm=algo)
 

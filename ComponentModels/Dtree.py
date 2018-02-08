@@ -1,8 +1,8 @@
 import numpy as np
-import MLModel
+import ComponentModel
 from sklearn.tree import DecisionTreeClassifier
 
-class Dtree(MLModel.MLModel):
+class Dtree(ComponentModel.ComponentModel):
     def __init__(self, criteria='gini', split='best' , depth=40): #, OTHER PARAMS):
         self.dtree = DecisionTreeClassifier(criterion = criteria, splitter = split, max_depth=depth,random_state=0)
 
