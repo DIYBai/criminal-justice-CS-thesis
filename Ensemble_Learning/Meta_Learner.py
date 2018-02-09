@@ -2,6 +2,11 @@ import numpy as np
 import EnsembleModel
 from sklearn.neighbors import KNeighborsClassifier
 from scipy import stats
+
+import os
+import sys
+model_path = os.path.abspath( os.path.join('..', 'ComponentModels') )
+sys.path.append(model_path)
 from ANN import ANN
 from Dtree import Dtree
 from KNN import KNN

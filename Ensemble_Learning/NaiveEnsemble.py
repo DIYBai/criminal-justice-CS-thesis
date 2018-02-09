@@ -1,5 +1,5 @@
 import numpy as np
-import MetaModel
+import EnsembleModel
 from sklearn.neighbors import KNeighborsClassifier
 from scipy import stats
 

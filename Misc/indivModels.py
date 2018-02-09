@@ -12,7 +12,7 @@ lib_path = os.path.abspath( os.path.join('..', 'Ensemble_Learning') )
 sys.path.append(lib_path)
 import RiskParser as rp
 
-inputs, outputs = rp.parse_data("../Data/breast_cancer.csv", firstInpCol = 0, lastInpCol = 8)
+inputs, outputs = rp.parse_data("../Data/breast_cancer.csv", firstInpCol = 1, lastInpCol = 10)
 print(inputs)
 print(outputs)
 

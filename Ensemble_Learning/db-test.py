@@ -1,4 +1,8 @@
 import RiskParser as rp
+import os
+import sys
+model_path = os.path.abspath( os.path.join('..', 'ComponentModels') )
+sys.path.append(model_path)
 from ANN import ANN
 from Dtree import Dtree
 from KNN import KNN
