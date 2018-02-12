@@ -1,6 +1,6 @@
 DB: 
 - understand K-clustering (start w low k value, increase....look at intra-cluster distance and inter-cluster distance)
-- XOR last 2 output columns of new dataset to make 'true'
+- [DONE] XOR last 2 output columns of new dataset to make 'true'
 - [DONE] try input vectors (naive ensemble, super learner)
 
 CN: 
