@@ -32,6 +32,7 @@ print('Estimated number of clusters: %d' % n_clusters_)
 
 
 print("\n** K-Means **")
+print("trial\t\ttime\tinertia\thomo\tcompl\tv-meas\tARI\tAMI")
 #TODO: cluter w k-means
 # below code from http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py
 def bench_k_means(estimator, name, data):
@@ -49,4 +50,5 @@ def bench_k_means(estimator, name, data):
          )
 
 for i in range(1, 30):
-    bench_k_means(KMeans(init = 'k-means++', n_clusters = i, n_init = 20), name = ("k-means" + str(i)), data = inputs)
+    kmeans = KMeans(init = 'k-means++', n_clusters = i, n_init = 20)
+    bench_k_means(kmeans, name = ("k-means " + str(i)), data = inputs)
