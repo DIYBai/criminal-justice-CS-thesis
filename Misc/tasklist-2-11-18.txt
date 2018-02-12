@@ -14,3 +14,7 @@ LN:
 - give 'best' parameters for each model
 - false positive/negative by race
 - different permuations of meta-ANN parameters
+
+General:
+- organize
+- review each other's code
