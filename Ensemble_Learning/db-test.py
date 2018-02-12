@@ -11,7 +11,6 @@ from NaiveEnsemble import NaiveEnsemble
 from helper import *
 import numpy as np
 
-# print("### Welcome ###")
 in_file = "RiskAssessData.csv"
 inputs, outputs = rp.parse_data(in_file)
 or_list = get_OR(inputs, outputs)
