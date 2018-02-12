@@ -39,6 +39,12 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         count = 0
         f_neg =0
         f_pos =0
+        results=self.report_individual_accuracy(x_test,y_test)
+        train_results=self.report_individual_accuracy(self.x_train,self.y_train)
+        inputs=self.combine_aray(train_results,results)
+        inputs2=self.combine_aray(self.settings,inputs)
+        inputs_np=np.array(inputs2)
+        self.save_results(inputs, self.filename)
         print "Length", len(y_test)
         for i in range(0, len(y_test)):
             prediction = self.predict([x_test[i]])
@@ -51,17 +57,6 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
             elif prediction == 1.0 and y_test[i] == 0.0:
                 f_pos +=1
         self.error_type(float(f_neg),float(f_pos),y_test)
-        results=self.report_individual_accuracy(x_test,y_test)
-        train_results=self.report_individual_accuracy(self.x_train,self.y_train)
-        #inputs are what will be written in the result file
-        inputs=self.combine_aray(train_results,results)
-        inputs2=self.combine_aray(self.settings,inputs)
-        # results_np=np.asarray(results)
-        # settings_np=np.asarray(self.settings)
-        inputs_np=np.array(inputs2)
-        # self.save_results(results, "models_accuracies-clean.csv")
-        # self.save_results(settings_np, "models_settings-clean.csv")
-        self.save_results(inputs, self.filename)
         return float(count)/float(len(y_test))
 
     def combine_aray(self, list1,list2):
