@@ -25,7 +25,7 @@ test_DTree = Dtree()
 ensemble_results=[]
 individual_results=[]
 x_train, x_test, y_train, y_test = test_DTree.split_data(inputs, outputs, .25)
-meta= Meta_Learner("All-other-models-results-part1.csv", x_train,y_train)
+meta= Meta_Learner("New-data-LogR-only.csv", x_train,y_train)
 #meta.Dtree()
 meta.train(x_train,y_train)
 #print("Naive Ensemble Test accuracy: test data set",meta.report_individual_accuracy(x_test,y_test))
