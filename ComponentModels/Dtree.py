@@ -14,3 +14,6 @@ class Dtree(ComponentModel.ComponentModel):
 
     def report_accuracy(self, x_test, y_test):
         return self.dtree.score(x_test, y_test)
+
+    def predict_prob(self, x_test):
+        return self.dtree.predict_proba(x_test)

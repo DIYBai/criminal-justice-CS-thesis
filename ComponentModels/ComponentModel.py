@@ -17,6 +17,10 @@ class ComponentModel:
     def predict(self, x_test):
     	return
 
+    @abstractmethod
+    def predict_prob(self, x_test):
+        return
+
     def split_data(self, inputs, outputs, test_size=.25, ):
         return train_test_split( inputs, outputs, test_size=test_size)
 

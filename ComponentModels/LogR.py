@@ -14,3 +14,6 @@ class LogR(ComponentModel.ComponentModel):
 
     def report_accuracy(self, x_test, y_test):
         return self.regression.score(x_test, y_test)
+
+    def predict_prob(self, x_test):
+        return self.regression.predict_proba(x_test)
