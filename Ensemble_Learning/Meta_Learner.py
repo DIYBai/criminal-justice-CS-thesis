@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 import EnsembleModel
+import os
+import sys
+lib_path = os.path.abspath( os.path.join('..', 'ComponentModels') )
+sys.path.append(lib_path)
 from sklearn.neighbors import KNeighborsClassifier
 from scipy import stats
 from ANN import ANN
@@ -19,8 +23,8 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         self.y_train=y_t
 
     def train(self, x_train, y_train):
-        self.train_ANNs(x_train,y_train)
-        print "finish ANN"
+        #self.train_ANNs(x_train,y_train)
+        #print "finish ANN"
         self.train_Dtrees(x_train,y_train)
         self.train_KNNs(x_train,y_train)
         self.train_LogRs(x_train,y_train)

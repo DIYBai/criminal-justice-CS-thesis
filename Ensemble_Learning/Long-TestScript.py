@@ -1,4 +1,8 @@
 import RiskParser as rp
+import os
+import sys
+lib_path = os.path.abspath( os.path.join('..', 'ComponentModels') )
+sys.path.append(lib_path)
 from ANN import ANN
 from Dtree import Dtree
 from KNN import KNN
@@ -9,7 +13,7 @@ from Meta_Learner import Meta_Learner
 
 
 
-inputs, outputs = rp.parse_data("RiskAssessData.csv")
+inputs, outputs = rp.parse_data("../Data/RiskAssessData.csv")
 print(inputs)
 print(outputs)
 print("### ALL TESTS ###")
@@ -21,7 +25,7 @@ test_DTree = Dtree()
 ensemble_results=[]
 individual_results=[]
 x_train, x_test, y_train, y_test = test_DTree.split_data(inputs, outputs, .25)
-meta= Meta_Learner("All-models-results-part1.csv", x_train,y_train)
+meta= Meta_Learner("All-other-models-results-part1.csv", x_train,y_train)
 #meta.Dtree()
 meta.train(x_train,y_train)
 #print("Naive Ensemble Test accuracy: test data set",meta.report_individual_accuracy(x_test,y_test))
