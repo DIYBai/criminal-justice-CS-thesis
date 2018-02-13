@@ -21,12 +21,13 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         self.filename=f_name
         self.x_train=x_t
         self.y_train=y_t
+        self.meta_results=[]
 
     def train(self, x_train, y_train):
         #self.train_ANNs(x_train,y_train)
         #print "finish ANN"
-        self.train_Dtrees(x_train,y_train)
-        self.train_KNNs(x_train,y_train)
+        #self.train_Dtrees(x_train,y_train)
+        #self.train_KNNs(x_train,y_train)
         self.train_LogRs(x_train,y_train)
         self.train_meta(x_train,y_train)
         return
@@ -97,6 +98,7 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
             predictions.append([model,prediction[0]])
             predictions_number.append(prediction[0])
         predictions_np = np.asarray(predictions)
+        self.meta_results.append(predictions_np)
         #self.save_results(predictions_np)
         predictions_number_np = np.asarray(predictions_number)
         m = stats.mode(predictions_number_np)
@@ -108,7 +110,8 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         print "In Train Meta"
         for i in range(0, len(y_test)):
             prediction = self.build_metadata([x_test[i]])
-        self.my_ANN = ANN(layers=(100,90,80,70))
+        self.save_results(self.meta_results, "New_data_predictions-LogR-only.csv")
+        self.my_ANN = ANN(layers=(100,90,80,70),learning_method='adaptive',iteration=1000)
         #self.my_ANN = Dtree('gini','best',10)
         x_train, x_test, y_train, y_test = self.my_ANN.split_data(self.meta_input, y_test, .25)
         self.my_ANN.train(x_train,y_train)
