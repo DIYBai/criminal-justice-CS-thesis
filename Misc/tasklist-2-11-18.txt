@@ -2,8 +2,7 @@
 
 DB:
 - understand K-clustering (start w low k value, increase....look at intra-cluster distance and inter-cluster distance)
-- [DONE] XOR last 2 output columns of new dataset to make 'true'
-- [DONE] try input vectors (naive ensemble, super learner)
+- try input vectors (restructure so only component models have get probability, otherwise dont)
 
 CN:
 - optimize super-learner

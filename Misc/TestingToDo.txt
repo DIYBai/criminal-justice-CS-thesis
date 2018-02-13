@@ -1,0 +1,8 @@
+1. find best parameters for each dataset (function that takes in dataset, maybe component model)
+2. Run each component model using a few best-parameter sets (function that takes in component model and dataset)
+3. Run each ensemble model on each dataset (function tht takes in ensemble model and dataset)
+3. Look at accuracy, confusion matrix (by race? do this by training on whole dataset, analyzing on datasets
+   split by race), error diversity (pairwise compare agreement/disagreement between component models when wrong)
+
+4. Confidence/probability given input vector for each model on each dataset
+5. (low priority) use charge ID more intelligently 
