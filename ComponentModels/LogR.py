@@ -3,8 +3,8 @@ import ComponentModel
 from sklearn.linear_model import LogisticRegression
 
 class LogR(ComponentModel.ComponentModel):
-    def __init__(self,algo='lbfgs', c=100): #, OTHER PARAMS):
-        self.regression = LogisticRegression(solver=algo,C=c)
+    def __init__(self,algo='lbfgs', c=200): #, OTHER PARAMS):
+        self.regression = LogisticRegression(solver=algo,max_iter=c)
 
     def train(self, x_train, y_train):
         self.regression.fit(x_train, y_train)
