@@ -1,16 +1,18 @@
-DB: 
+**Normalize new input/make it binary??
+
+DB:
 - understand K-clustering (start w low k value, increase....look at intra-cluster distance and inter-cluster distance)
 - [DONE] XOR last 2 output columns of new dataset to make 'true'
 - [DONE] try input vectors (naive ensemble, super learner)
 
-CN: 
+CN:
 - optimize super-learner
 
-KP: 
+KP:
 - visualizations
 - permutations of different inputs
 
-LN: 
+LN:
 - give 'best' parameters for each model
 - false positive/negative by race
 - different permuations of meta-ANN parameters
