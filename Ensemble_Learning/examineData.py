@@ -11,7 +11,7 @@ from NaiveEnsemble import NaiveEnsemble
 from helper import *
 import numpy as np
 
-in_file = "../Data/broward_augmented.csv"
+in_file = "../Data/broward_norm.csv"
 inputs, outputs = rp.parse_data(in_file, 5, 9, 11) #'output' is COMPAS's guess...not 'reality'
 or_list = get_OR(inputs, outputs)
 for i in range(len(or_list)):
