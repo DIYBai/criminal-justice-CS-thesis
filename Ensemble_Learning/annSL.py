@@ -14,7 +14,7 @@ import copy
 ##export probability instead
 ##use higher degree multiplication
 
-class fullSL(EnsembleModel.EnsembleModel):
+class annSL(EnsembleModel.EnsembleModel):
 
 
     def __init__(self, model_list):
