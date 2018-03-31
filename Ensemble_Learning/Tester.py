@@ -12,3 +12,7 @@ class Tester:
     @abstractmethod
     def run_trials(self, model,iterations):
        return
+
+    @abstractmethod
+    def export_results(self):
+        return
