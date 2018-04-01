@@ -10,9 +10,9 @@ class Tester:
         return rp.parse_data(filename=filename,firstInpCol = first, lastInpCol = last)
 
     @abstractmethod
-    def run_trials(self, model,iterations, inputs, outputs):
+    def run_trials(self, filename, model,iterations, inputs, outputs):
        return
 
     @abstractmethod
-    def export_results(self):
+    def export_results(self, filename, test_metrics, train_metrics):
         return
