@@ -10,7 +10,7 @@ class Tester:
         return rp.parse_data(filename=filename,firstInpCol = first, lastInpCol = last)
 
     @abstractmethod
-    def run_trials(self, model,iterations):
+    def run_trials(self, model,iterations, inputs, outputs):
        return
 
     @abstractmethod

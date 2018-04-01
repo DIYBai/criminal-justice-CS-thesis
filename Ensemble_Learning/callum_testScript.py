@@ -15,10 +15,12 @@ from ANN import ANN
 from Dtree import Dtree
 from KNN import KNN
 from LogR import LogR
+from slTester import slTester
 
 
 
-inputs, outputs = rp.parse_data("../Data/broward_norm.csv",4,10,13)
+##inputs, outputs = rp.parse_data("../Data/broward_norm.csv",4,10,13)
+inputs, outputs = rp.parse_data("../Data/breast_cancer.csv",1,9,10)
 
 test_DTree = Dtree()
 test_KNN = KNN(3)
@@ -42,7 +44,9 @@ x_train, x_test, y_train, y_test = test_ANN.split_data(inputs, outputs, .25)
 
 print("### ANN Super Learner Ensemble ###")
 test_fullSL = annSL([test_ANN, test_DTree, test_KNN, test_LogR])
-e_tester = ensembleTester([test_fullSL])
-e_tester.test(inputs,outputs)
+##e_tester = ensembleTester([test_fullSL])
+##e_tester.test(inputs,outputs)
+sl_tester = slTester()
+sl_tester.run_trials("breast_cancer",test_fullSL,5,inputs,outputs)
 ##test_fullSL.train(x_train, y_train)
 ##print("Accuracy: " + str(test_fullSL.report_accuracy(x_test,y_test)))
