@@ -11,7 +11,7 @@ class Tester:
 
     @abstractmethod
     def run_trials(self, filename, model,iterations, inputs, outputs):
-       return
+        return
 
     @abstractmethod
     def export_results(self, filename, test_metrics, train_metrics):

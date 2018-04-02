@@ -13,17 +13,19 @@ from KNN import KNN
 from LogR import LogR
 
 class Meta_Learner(EnsembleModel.EnsembleModel):
-    def __init__(self,f_name,x_t,y_t):
+    def __init__(self,f_name):
         self.models=[]
         self.settings=[]
         self.meta_input=[]
         self.meta_output=[]
         self.filename=f_name
-        self.x_train=x_t
-        self.y_train=y_t
+        #self.x_train=x_t
+        #self.y_train=y_t
         self.meta_results=[]
 
     def train(self, x_train, y_train):
+        self.x_train=x_train
+        self.y_train=y_train
         #self.train_ANNs(x_train,y_train)
         #print "finish ANN"
         #self.train_Dtrees(x_train,y_train)
@@ -56,9 +58,10 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
             if prediction == y_test[i]:
                count += 1
             #1 for yes ,0for no
-            #false negative
+            #false negative, if actual is positive and classifier guessed negative
             elif prediction == 0.0 and y_test[i] == 1.0:
                 f_neg +=1
+            #false positive, if actual is negative and classifier guessed positive
             elif prediction == 1.0 and y_test[i] == 0.0:
                 f_pos +=1
         self.error_type(float(f_neg),float(f_pos),y_test)
@@ -76,17 +79,21 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         tn=0.0
         tp=0.0
         m = stats.mode(np.asarray(y_test))
+        #if false
         if m[0]==0.0:
             print m
-            tn=float(m[1])
-            tp=float(len(y_test)-m[1])
-        else:
-            print m
-            tp=float(m[1])
-            tn=float(len(y_test)-m[1])
-        false_positive=(f_neg)/(f_neg+tn)
-        false_negative=(f_pos)/(f_pos+tp)
-        print "False Positive Rate: ", false_positive, "False Negative Rate: ",false_negative
+            #tn is all the negative minus the false positive
+            tn=float(m[1])-f_pos
+            #tp is all the positive minus the false negative
+            tp=(float(len(y_test)-m[1]))-f_neg
+        #if true
+        #else:
+            #print m
+            #tp=float(m[1])
+            #tn=float(len(y_test)-m[1])
+        self.false_positive_rate=(f_pos)/(f_pos+tn)
+        self.false_negative_rate=(f_neg)/(f_neg+tp)
+        print "False Positive Rate: ", self.false_positive_rate, "False Negative Rate: ",self.false_negative_rate
 
     def build_metadata(self, x_test):
         predictions = []
@@ -187,9 +194,10 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
                     #print("Naive Ensemble Test accuracy: test data set",current_model.report_accuracy(self.x_test,self.y_test))
                     #print("Naive Ensemble Test accuracy: train data set",current_model.report_accuracy(self.x_train,self.y_train))
     def train_LogRs(self, x_train,y_train):
-        algorithms=['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']
+        #algorithms=['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']
+        algorithms=['newton-cg']
         for algo in algorithms:
-            for i in range(1,502, 100):
+            for i in range(1,202, 100):
                 current_model=LogR(algo,i)
                 self.models.append(current_model)
                 current_model.train(x_train,y_train)
