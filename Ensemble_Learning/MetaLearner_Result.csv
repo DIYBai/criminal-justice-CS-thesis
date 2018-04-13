@@ -1,3 +1,0 @@
-,Model,File_name,Test_set,Average,Std_dev,Fp_rate,Fn_rate
-0,<Meta_Learner.Meta_Learner object at 0x108fb1990>,RiskAssessData.csv,Testing,0.905277874868927,0.0,0.02606724593879864,0.9345794392523364
-1,<Meta_Learner.Meta_Learner object at 0x108fb1990>,RiskAssessData.csv,Training,0.9370849353372946,0.0,0.00910010111223458,0.6885245901639344
