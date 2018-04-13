@@ -17,6 +17,7 @@ from LogR import LogR
 from slTester import slTester
 
 ## ---Component ML Models--- ## 
+## models were selected by Meta Learner output ranking of ideal model configurations ##
 a_DTree = Dtree('gini','best',3)
 b_DTree = Dtree('entropy','best',3)
 c_DTree = Dtree('entropy','random',3)
@@ -30,8 +31,6 @@ a_ANN = ANN(iteration=8700,layers=[100])
 b_ANN = ANN(iteration=2700,layers=[100,90,80,70])
 inputs, outputs = rp.parse_data("../Data/broward_norm.csv",4,10,13)
 model_list = [a_DTree, b_DTree, c_DTree, a_KNN, b_KNN, c_KNN, a_KNN, b_KNN, c_KNN, a_LogR, b_LogR, c_LogR, a_ANN, b_ANN]
-##inputs, outputs = rp.parse_data("../Data/breast_cancer.csv",1,9,10)
-
 
 ## ---Ensemble Tester--- ##
 x_train, x_test, y_train, y_test = a_ANN.split_data(inputs, outputs, .25)

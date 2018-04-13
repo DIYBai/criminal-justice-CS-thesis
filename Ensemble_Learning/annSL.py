@@ -16,7 +16,7 @@ import copy
 
 class annSL(EnsembleModel.EnsembleModel):
 
-
+    ## takes model list as an input  ##
     def __init__(self, model_list):
         self.model_list = model_list
         self.model_accuracies = []
@@ -24,11 +24,13 @@ class annSL(EnsembleModel.EnsembleModel):
         self.total_accuracy = 100.000
         self.meta_Alg = ANN(iteration=10000)
 
+    ##  creates deep copy of dataset, with ith fold removed  ##
     def concatenate(self, folds, i):
         folds_copy = copy.deepcopy(folds)
         test = folds_copy.pop(i)
         return np.concatenate(folds_copy, axis=0), test
 
+    ##  creates new matrix with prediciton marix and inputs  ##
     def concatenate_matrix(self, prediction_matrix, inputs):
         new_matrix = []
         for i in range(len(inputs)):
@@ -36,11 +38,14 @@ class annSL(EnsembleModel.EnsembleModel):
             new_matrix.append(new_arr)
         return new_matrix
 
+    ##  gets overall accuracies for each model, and total accuracy  ##
     def mean_accuracies(self,accuracies_list,b):
         self.model_accuracies = [sum(x)/b for x in zip(*accuracies_list)]
         accuracies_list_np = np.asarray(accuracies_list)
         self.total_accuracy = np.sum(accuracies_list_np)
 
+    ##  splits the dataset into b folds, and trains component  ##
+    ##  models on each fold while keeping track of accuracy  ##
     def train_components(self, inputs,outputs,b):
         input_folds = np.array_split(inputs, b)
         output_folds = np.array_split(outputs, b)
@@ -55,23 +60,27 @@ class annSL(EnsembleModel.EnsembleModel):
         ##print(self.model_accuracies)
         ##print(self.best_model)
 
-
+    ##  trains each component model and gets predictions, then trains  ##
+    ##  meta algorithm using these outputs and the actual outputs  ##
     def train(self, inputs, outputs, b=10, epochs=1000):
         self.train_components(inputs,outputs,b)
         prediction_matrix = self.prediction_matrix(inputs)
         new_matrix = self.concatenate_matrix(prediction_matrix,inputs)
         self.meta_Alg.train(new_matrix,outputs)
 
-
+    ##  train each component model on the input data  ##
     def fold_train(self, x_train, y_train):
         for i in range(len(self.model_list)):
             self.model_list[i].train(x_train,y_train)
 
+    ##  gets prediction from each componenet model, and feeds these  ##
+    ##  into meta algorithm for overall prediction  ##
     def predict(self,x_test):
         pred_matrix = self.prediction_matrix(x_test)
         new_matrix = self.concatenate_matrix(pred_matrix,x_test)
         return self.meta_Alg.predict(new_matrix) 
 
+    ##  gets matrix of predicitions for each input  ##
     def prediction_matrix(self, x_test):
         prediction_matrix = []
         for j in range(len(x_test)):
@@ -82,6 +91,7 @@ class annSL(EnsembleModel.EnsembleModel):
             prediction_matrix.append(models_prediction)
         return np.asarray(prediction_matrix)
 
+    ##  gets accuracy for each model in input ##
     def fold_accuracy(self, x_test, y_test):
         accuracies = []
         for i in range(len(self.model_list)):
@@ -89,10 +99,8 @@ class annSL(EnsembleModel.EnsembleModel):
             accuracies.append(prediction)
         return accuracies
 
+    ##  returns accuracy from best model  ##
     def report_accuracy(self, x_test, y_test):
-        ##pred_matrix = self.prediction_matrix(x_test)
-        ##new_matrix = self.concatenate_matrix(pred_matrix,x_test)
-        ##predictions = self.meta_Alg.predict(new_matrix)
         predictions = self.predict(x_test)
         results = accuracy_score(predictions, y_test)
         return results

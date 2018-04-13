@@ -68,7 +68,7 @@ class slTester(Tester.Tester):
         self.export_results(filename, test_metrics, train_metrics)
         return 
 
-    ##  exports test metrics and train metrics to filename
+    ##  exports test metrics and train metrics to filename  ##
     def export_results(self,filename,test_metrics, train_metrics):
         print(test_metrics)
         print(train_metrics)
