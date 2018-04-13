@@ -27,7 +27,10 @@ class Meta_Learner_Tester(Tester.Tester):
             model.settings=[]
             model.meta_input=[]
             model.meta_output=[]
-            model.filename=filename
+            #model.filename=filename
+            #Testing
+            model.x_test=self.x_test
+            model.y_test=self.y_test
             model.meta_results=[]
             model.train(self.x_train, self.y_train)
             test_accuracies.append(model.report_accuracy(self.x_test,self.y_test))
@@ -44,7 +47,7 @@ class Meta_Learner_Tester(Tester.Tester):
         header=["Model","File_name","Test_set","Average","Std_dev","Fp_rate","Fn_rate"]
         items=[test_metrics,train_metrics]
         dataframe=pd.DataFrame(items,columns=header)
-        dataframe.to_csv("Long/MetaLearner_Result.csv")
+        dataframe.to_csv("Long/Final/broward_with_race_forposter_Meta_result_ANNs.csv",mode='a')
         return
 
     def calculate(self,filename,model,test_accuracies, train_accuracies, fp_rate_test,fp_rate_train,fn_rate_test,fn_rate_train):
@@ -62,4 +65,5 @@ class Meta_Learner_Tester(Tester.Tester):
 
     def split_data(self, inputs, outputs):
         test_DTree = Dtree()
-        self.x_train, self.x_test, self.y_train, self.y_test = test_DTree.split_data(inputs, outputs, .25)
+        self.x_train, self.x_test, self.y_train, self.y_test = test_DTree.split_data(inputs, outputs, .5)
+        print len(self.x_test), " Y TEST LENGTH"

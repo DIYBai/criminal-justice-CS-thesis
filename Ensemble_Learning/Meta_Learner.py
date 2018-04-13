@@ -30,7 +30,11 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         #print "finish ANN"
         #self.train_Dtrees(x_train,y_train)
         #self.train_KNNs(x_train,y_train)
-        self.train_LogRs(x_train,y_train)
+        #self.train_LogRs(x_train,y_train)
+        #self.train_best_KNNs(x_train,y_train)
+        #self.train_best_LogRs(x_train,y_train)
+        self.train_best_Dtrees(x_train, y_train)
+        #self.train_best_ANNs(x_train,y_train)
         self.train_meta(x_train,y_train)
         return
 
@@ -91,18 +95,34 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
             #print m
             #tp=float(m[1])
             #tn=float(len(y_test)-m[1])
-        self.false_positive_rate=(f_pos)/(f_pos+tn)
-        self.false_negative_rate=(f_neg)/(f_neg+tp)
+        if (f_pos+tn)==0 and (f_neg+tp)==0:
+            self.false_positive_rate=0.0
+            self.false_negative_rate=0.0
+        elif (f_pos+tn)==0:
+            self.false_positive_rate=0.0
+            self.false_negative_rate=(f_neg)/(f_neg+tp)
+        elif (f_neg+tp)==0:
+            self.false_negative_rate=0.0
+            self.false_positive_rate=(f_pos)/(f_pos+tn)
+        else:
+            self.false_positive_rate=(f_pos)/(f_pos+tn)
+            self.false_negative_rate=(f_neg)/(f_neg+tp)
         print "False Positive Rate: ", self.false_positive_rate, "False Negative Rate: ",self.false_negative_rate
 
     def build_metadata(self, x_test):
         predictions = []
         predictions_number =[]
+        #x_test[0] contains a single row of input from test data set
         for element in x_test[0]:
             predictions_number.append(element)
         for model in self.models:
+            #prediction=single prediction
+            #Minor test
             prediction = model.predict(x_test)
+            #prediction = model.predict(self.x_train)
+            #predictions array has the correspoinding model and its prediction
             predictions.append([model,prediction[0]])
+            #prediction number has the row of input plus the predictions from each model
             predictions_number.append(prediction[0])
         predictions_np = np.asarray(predictions)
         self.meta_results.append(predictions_np)
@@ -111,16 +131,20 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
         m = stats.mode(predictions_number_np)
         #print predictions_number_np
         self.meta_input.append(predictions_number_np)
+        #print len(self.meta_input) , " ACTUAL self meta_input"
         #return predictions_np
 
     def train_meta(self, x_test,y_test):
         print "In Train Meta"
-        for i in range(0, len(y_test)):
-            prediction = self.build_metadata([x_test[i]])
+        for i in range(0, len(self.y_test)):
+            prediction = self.build_metadata([self.x_test[i]])
         self.save_results(self.meta_results, "New_data_predictions-LogR-only.csv")
-        self.my_ANN = ANN(layers=(100,90,80,70),learning_method='adaptive',iteration=1000)
-        #self.my_ANN = Dtree('gini','best',10)
-        x_train, x_test, y_train, y_test = self.my_ANN.split_data(self.meta_input, y_test, .25)
+        self.my_ANN = ANN('adam', 'logistic','constant', 700 , .01, .0001,(100,90,80,70))
+        #self.my_ANN = Dtree('gini', 'best' , 3)
+        #self.my_ANN = LogR('newton-cg',9)
+        #self.my_ANN= KNN(10,'uniform', 'auto')
+        print len(self.meta_input), "length of meta_input"
+        x_train, x_test, y_train, y_test = self.my_ANN.split_data(self.meta_input, self.y_test, .25)
         self.my_ANN.train(x_train,y_train)
         print "FINAL META ACCURACY",self.my_ANN.report_accuracy(x_test,y_test)
 
@@ -132,7 +156,16 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
 
     def save_results(self, items,filename):
         dataframe=pd.DataFrame(items)
-        dataframe.to_csv(filename)
+        dataframe.to_csv(filename, mode= 'a')
+
+    def train_best_ANNs(self, x_train,y_train):
+        ANNs=[ANN('adam', 'logistic','constant', 700 , .01, .0001,(100,90,80,70)),ANN('adam', 'tanh','constant', 6700 , .001, .0001,(100,90,80,70)),
+        ANN('adam', 'tanh','adaptive', 8700 , .0001, .0009,(100,90,80,70))]
+        for model in ANNs:
+            #current_model.train(self.x_train,self.y_train)
+            self.models.append(model)
+            model.train(x_train,y_train)
+            self.settings.append(["ANN"])
     def train_ANNs(self,x_train,y_train):
         #algorithms = ['lbfgs', 'sgd', 'adam']
         algorithms = [ 'adam']
@@ -163,6 +196,14 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
                                     #print("Current Settings: ",algo, function,methods, i , r, a,layer)
                                     #print("Naive Ensemble Test accuracy: test data set",current_model.report_accuracy(self.x_test,self.y_test))
                                     #print("Naive Ensemble Test accuracy: train data set",current_model.report_accuracy(self.x_train,self.y_train))
+    def train_best_Dtrees(self, x_train, y_train):
+        Dtrees=[Dtree('gini', 'best' , 3),Dtree('entropy', 'best' , 3),Dtree('entropy', 'random' , 3)]
+        #new stuff
+        #self.current_model=current_model
+        for tree in Dtrees:
+            self.models.append(tree)
+            tree.train(x_train,y_train)
+            self.settings.append(["Dtree"])
     def train_Dtrees(self, x_train, y_train):
         criteria =['gini','entropy']
         split = ['best', 'random']
@@ -179,6 +220,12 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
                     #print("Current Settings: ",crit, strategy , i)
                     #print("Naive Ensemble Test accuracy: test data set",current_model.report_accuracy(self.x_test,self.y_test))
                     #print("Naive Ensemble Test accuracy: train data set",current_model.report_accuracy(self.x_train,self.y_train))
+    def train_best_KNNs(self, x_train,y_train):
+        KNNs= [KNN(10,'uniform', 'auto'),KNN(15,'uniform', 'kd_tree'),KNN(20,'uniform', 'ball_tree')]
+        for knn in KNNs:
+            self.models.append(knn)
+            knn.train(x_train,y_train)
+            self.settings.append(["KNN"])
     def train_KNNs(self, x_train,y_train):
         weights =['uniform','distance']
         algorithms = ['auto','ball_tree','kd_tree','brute']
@@ -193,6 +240,13 @@ class Meta_Learner(EnsembleModel.EnsembleModel):
                     #print("Current Settings: ",i ,w, algo)
                     #print("Naive Ensemble Test accuracy: test data set",current_model.report_accuracy(self.x_test,self.y_test))
                     #print("Naive Ensemble Test accuracy: train data set",current_model.report_accuracy(self.x_train,self.y_train))
+    def train_best_LogRs(self, x_train,y_train):
+        #algorithms=['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']
+        LogRs=[LogR('newton-cg',3),LogR('newton-cg',6),LogR('newton-cg',9)]
+        for log in LogRs:
+            self.models.append(log)
+            log.train(x_train,y_train)
+            self.settings.append(["LogR"])
     def train_LogRs(self, x_train,y_train):
         #algorithms=['newton-cg', 'lbfgs', 'liblinear', 'sag', 'saga']
         algorithms=['newton-cg']
