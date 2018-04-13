@@ -1,0 +1,4 @@
+,0,1,2,3,4,5,6
+0,<LogR.LogR object at 0x10a153c50>,0.9220552254456483,<LogR.LogR object at 0x10a153c50>,0.9220552254456483,LogR,newton-cg,1
+1,<LogR.LogR object at 0x1006bd910>,0.9220552254456483,<LogR.LogR object at 0x1006bd910>,0.9220552254456483,LogR,newton-cg,101
+2,<LogR.LogR object at 0x10a153a50>,0.9220552254456483,<LogR.LogR object at 0x10a153a50>,0.9220552254456483,LogR,newton-cg,201
